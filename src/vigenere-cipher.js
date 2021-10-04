@@ -20,12 +20,43 @@ import { NotImplementedError } from '../extensions/index.js';
  * 
  */
 export default class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(directly = true) {
+    this.directly = directly;
+    this.alphaToUpper = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(str, key) {
+    if (str === undefined || key === undefined) throw new Error("Incorrect arguments!");
+    let x = 0;
+    
+    const keyInUp = key.toUpperCase().split("");
+    const tempWord = str.toUpperCase().split("");
+
+    let result = tempWord.map((anyWord) => {
+      if (this.alphaToUpper.includes(anyWord)) {
+        let i = (this.alphaToUpper.indexOf(anyWord) + this.alphaToUpper.indexOf(keyInUp[x])) % this.alphaToUpper.length;
+        x = (x + 1) % keyInUp.length;
+        return this.alphaToUpper[i];
+      }
+      return anyWord;
+    });
+    return this.directly ? result.join("") : result.reverse().join("");
   }
-}
+  decrypt(str, key) {
+    if (str === undefined || key === undefined) throw new Error("Incorrect arguments!");
+    let x = 0;
+
+    const keyInUp = key.toString().toUpperCase().split("");
+    const tempWord = str.toString().toUpperCase().split("");
+
+    let result = tempWord.map((anyWord) => {
+       if (this.alphaToUpper.includes(anyWord)) {
+        let i = this.alphaToUpper.indexOf(anyWord) - this.alphaToUpper.indexOf(keyInUp[x]);
+        if (i < 0) i += this.alphaToUpper.length;
+        x = (x + 1) % keyInUp.length;
+        return this.alphaToUpper[i];
+      }
+      return anyWord;
+    });
+    return this.directly ? result.join("") : result.reverse().join("");
+  }
+  }
