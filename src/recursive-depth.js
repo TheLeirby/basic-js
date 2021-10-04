@@ -16,16 +16,16 @@ export default class DepthCalculator {
   calculateDepth(arr) {
     let depthCalc = 1;
     let i = 1;
-    for (let y of arr) {
+    for (let i of arr) {
       if (Array.isArray(i)) {
-        y = 1 + this.calculateDepth(i);
-        if (y > depthCalc) {
-          depthCalc = y;
+        i = 1 + this.calculateDepth(i);
+        if (i > depthCalc) {
+          depthCalc = i;
         }
       }
     }
-    index = 1;
-    return depthCalc;
-
+    i = 1;
+    return depthCalc
+    
   }
 }
